@@ -1,0 +1,49 @@
+name: ZnItem
+main: tech.ccat.znitem.ZnItem
+version: ${version}
+api-version: '1.21'
+depend:
+  - KStats
+softdepend:
+  - NaSkill
+commands:
+  summonitem:
+    description: 生成一个ZnItem物品
+    usage: /summonitem <物品ID> 或 /summonitem <玩家> <物品ID>
+    permission: znitem.admin.summon
+  vanillatoznitem:
+    description: 将手持原版物品转化为ZnItem
+    usage: /vanillatoznitem
+    permission: znitem.admin.vanillatoznitem
+  renameitem:
+    description: 重命名手持ZnItem
+    usage: /renameitem <名称>
+    permission: znitem.admin.rename
+  refactoritem:
+    description: 重构手持ZnItem
+    usage: /refactoritem
+    permission: znitem.admin.refactor
+  znench:
+    description: 为ZnItem附魔
+    usage: /znench <玩家> <附魔类型> <附魔等级>
+    permission: znitem.admin.enchant
+  hotpowerbook:
+    description: 设置炙能之书数量
+    usage: /hotpowerbook <玩家> <数量>
+    permission: znitem.admin.hotpowerbook
+  itemgem:
+    description: 管理ZnItem宝石槽位
+    usage: /itemgem <unlock|insert|remove> ...
+    permission: znitem.admin.gem
+permissions:
+  znitem.admin:
+    description: ZnItem管理员权限
+    default: op
+    children:
+      znitem.admin.summon: true
+      znitem.admin.vanillatoznitem: true
+      znitem.admin.rename: true
+      znitem.admin.refactor: true
+      znitem.admin.enchant: true
+      znitem.admin.hotpowerbook: true
+      znitem.admin.gem: true
