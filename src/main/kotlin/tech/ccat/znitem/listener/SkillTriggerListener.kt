@@ -6,13 +6,12 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerItemHeldEvent
 import tech.ccat.znitem.ZnItem
 import tech.ccat.znitem.model.SkillTriggerType
 import tech.ccat.znitem.model.ZnItemEnum
 import tech.ccat.znitem.nbt.ZnItemNBT
-import tech.ccat.znitem.skill.SkillRegistry
 import tech.ccat.znitem.util.CooldownManager
+import tech.ccat.znitem.util.RestrictionChecker
 
 class SkillTriggerListener : Listener {
 
@@ -23,6 +22,8 @@ class SkillTriggerListener : Listener {
         val player = event.player
         val item = player.inventory.itemInMainHand
         if (!ZnItemNBT.isZnItem(item)) return
+
+        if (!RestrictionChecker.canUse(player, item)) return
 
         val itemId = ZnItemNBT.getItemId(item) ?: return
         val znItemEnum = ZnItemEnum.fromId(itemId) ?: return
@@ -54,6 +55,8 @@ class SkillTriggerListener : Listener {
         val player = event.player
         val item = event.itemDrop.itemStack
         if (!ZnItemNBT.isZnItem(item)) return
+
+        if (!RestrictionChecker.canUse(player, item)) return
 
         val itemId = ZnItemNBT.getItemId(item) ?: return
         val znItemEnum = ZnItemEnum.fromId(itemId) ?: return

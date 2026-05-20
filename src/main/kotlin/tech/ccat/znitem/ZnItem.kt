@@ -3,6 +3,7 @@ package tech.ccat.znitem
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.java.JavaPlugin
+import tech.ccat.calevel.api.CaLevelAPI
 import tech.ccat.kstats.api.KStatsAPI
 import tech.ccat.naskill.api.NaSkillAPI
 import tech.ccat.znitem.api.ZnItemAPI
@@ -12,6 +13,8 @@ import tech.ccat.znitem.config.ConfigManager
 import tech.ccat.znitem.data.PlayerDataManager
 import tech.ccat.znitem.enchant.ZnEnchantRegistry
 import tech.ccat.znitem.listener.*
+import tech.ccat.znitem.lore.LoreRenderer
+import tech.ccat.znitem.lore.LoreUpdateManager
 import tech.ccat.znitem.provider.VanillaItemProvider
 import tech.ccat.znitem.provider.ZnItemStatProvider
 import tech.ccat.znitem.reforge.ReforgeRegistry
@@ -31,11 +34,13 @@ class ZnItem : JavaPlugin() {
     lateinit var dataManager: PlayerDataManager
     lateinit var uuidRegistry: UUIDRegistry
     lateinit var backupManager: PlayerBackupManager
+    lateinit var loreUpdateManager: LoreUpdateManager
 
     lateinit var znItemAPI: ZnItemAPIImpl
 
     var kstatsAPI: KStatsAPI? = null
     var naSkillAPI: NaSkillAPI? = null
+    var caLevelAPI: CaLevelAPI? = null
 
     private lateinit var h2Database: H2Database
     private lateinit var backupDao: PlayerBackupDao
@@ -52,6 +57,7 @@ class ZnItem : JavaPlugin() {
         configManager = ConfigManager().apply { setup() }
         dataManager = PlayerDataManager()
         uuidRegistry = UUIDRegistry()
+        loreUpdateManager = LoreUpdateManager().apply { setup() }
 
         h2Database = H2Database()
         h2Database.connect()
@@ -61,6 +67,7 @@ class ZnItem : JavaPlugin() {
         ZnEnchantRegistry.setup()
         ReforgeRegistry.setup()
         SkillRegistry.setup()
+        LoreRenderer.setup()
 
         registerListeners()
         registerCommands()
@@ -106,6 +113,8 @@ class ZnItem : JavaPlugin() {
         pm.registerEvents(SkillTriggerListener(), this)
         pm.registerEvents(EnchantDamageListener(), this)
         pm.registerEvents(PlayerJoinListener(), this)
+        pm.registerEvents(LoreUpdateListener(), this)
+        pm.registerEvents(ItemRestrictionListener(), this)
     }
 
     private fun registerCommands() {
@@ -118,6 +127,7 @@ class ZnItem : JavaPlugin() {
         getCommand("znench")?.tabCompleter = ZnEnchantCommand()
         getCommand("hotpowerbook")?.setExecutor(HotPowerBookCommand())
         getCommand("itemgem")?.setExecutor(ItemGemCommand())
+        getCommand("viewnbt")?.setExecutor(ViewNbtCommand())
     }
 
     private fun connectToExternalServices() {
@@ -133,6 +143,11 @@ class ZnItem : JavaPlugin() {
         naSkillAPI = server.servicesManager.getRegistration(NaSkillAPI::class.java)?.provider
         naSkillAPI?.let {
             logger.info("已连接到NaSkill")
+        }
+
+        caLevelAPI = server.servicesManager.getRegistration(CaLevelAPI::class.java)?.provider
+        caLevelAPI?.let {
+            logger.info("已连接到CaLevel")
         }
     }
 

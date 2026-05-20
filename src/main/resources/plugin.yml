@@ -35,6 +35,10 @@ commands:
     description: 管理ZnItem宝石槽位
     usage: /itemgem <unlock|insert|remove> ...
     permission: znitem.admin.gem
+  viewnbt:
+    description: 查看物品NBT数据
+    usage: /viewnbt
+    permission: znitem.admin.viewnbt
 permissions:
   znitem.admin:
     description: ZnItem管理员权限
@@ -47,3 +51,4 @@ permissions:
       znitem.admin.enchant: true
       znitem.admin.hotpowerbook: true
       znitem.admin.gem: true
+      znitem.admin.viewnbt: true

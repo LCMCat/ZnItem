@@ -1,6 +1,7 @@
 package tech.ccat.znitem.reforge.sword
 
 import tech.ccat.kstats.model.PlayerStat
+import tech.ccat.znitem.lore.LoreContext
 import tech.ccat.znitem.model.Rarity
 import tech.ccat.znitem.model.ReforgeType
 import tech.ccat.znitem.reforge.Reforge
@@ -25,4 +26,12 @@ class WeatheredReforge : Reforge(ReforgeType.WEATHERED, "风化") {
 
     override fun getSpecialAbilityDescription(): String =
         "对每级§c战斗等级§7, §a+1§c力量§7"
+    
+    override fun renderAbilityLore(context: LoreContext): List<String> {
+        return listOf(
+            "§9${displayName}加成",
+            "§7对每级§c战斗等级§7, §a+1§c力量§7",
+            "§7"
+        )
+    }
 }

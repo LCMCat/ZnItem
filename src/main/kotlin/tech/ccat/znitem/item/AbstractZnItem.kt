@@ -4,16 +4,14 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import tech.ccat.kstats.model.PlayerStat
-import tech.ccat.znitem.ZnItem
 import tech.ccat.znitem.enchant.ZnEnchantRegistry
 import tech.ccat.znitem.gem.GemBonusCalculator
-import tech.ccat.znitem.gem.GemSlot
 import tech.ccat.znitem.gem.GemSlotManager
+import tech.ccat.znitem.lore.LoreRenderer
 import tech.ccat.znitem.model.*
 import tech.ccat.znitem.nbt.ZnItemNBT
 import tech.ccat.znitem.reforge.ReforgeRegistry
 import tech.ccat.znitem.skill.ItemSkill
-import tech.ccat.znitem.util.ItemLoreBuilder
 import java.util.UUID
 
 abstract class AbstractZnItem {
@@ -50,11 +48,11 @@ abstract class AbstractZnItem {
         }
         ZnItemNBT.setGemSlots(item, gemSlots)
 
-        updateItemMeta(item)
+        updateItemMeta(item, null)
         return item
     }
 
-    fun updateItemMeta(itemStack: ItemStack) {
+    fun updateItemMeta(itemStack: ItemStack, player: org.bukkit.entity.Player? = null) {
         val meta = itemStack.itemMeta ?: return
 
         val rename = ZnItemNBT.getRename(itemStack)
@@ -75,7 +73,7 @@ abstract class AbstractZnItem {
         }
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE)
 
-        val lore = ItemLoreBuilder.buildLore(this, itemStack)
+        val lore = LoreRenderer.renderItemLore(itemStack, player)
         meta.lore = lore
 
         itemStack.itemMeta = meta
