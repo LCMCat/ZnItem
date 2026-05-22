@@ -141,21 +141,7 @@ abstract class AbstractZnItem {
     }
 
     companion object {
-        fun copyStat(source: PlayerStat): PlayerStat {
-            val stat = PlayerStat()
-            stat.health = source.health
-            stat.defense = source.defense
-            stat.strength = source.strength
-            stat.speed = source.speed
-            stat.baseDamage = source.baseDamage
-            stat.critChance = source.critChance
-            stat.critDamage = source.critDamage
-            stat.wisdom = source.wisdom
-            stat.damageMultiplier = source.damageMultiplier
-            stat.healing = source.healing
-            stat.manaRegen = source.manaRegen
-            return stat
-        }
+        fun copyStat(source: PlayerStat): PlayerStat = source.copy()
 
         fun addStats(target: PlayerStat, source: PlayerStat) {
             target.health += source.health

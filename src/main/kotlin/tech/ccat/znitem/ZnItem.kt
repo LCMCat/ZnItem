@@ -115,6 +115,7 @@ class ZnItem : JavaPlugin() {
         pm.registerEvents(PlayerJoinListener(), this)
         pm.registerEvents(LoreUpdateListener(), this)
         pm.registerEvents(ItemRestrictionListener(), this)
+        pm.registerEvents(DurabilityProtectionListener(), this)
     }
 
     private fun registerCommands() {

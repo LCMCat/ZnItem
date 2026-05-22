@@ -69,8 +69,6 @@ class VanillaItemProvider : StatProvider {
 
     override fun provideStats(player: Player): PlayerStat {
         val total = PlayerStat()
-        total.health = 0.0; total.defense = 0.0; total.strength = 0.0; total.speed = 0.0; total.baseDamage = 0.0
-        total.critChance = 0.0; total.critDamage = 0.0; total.wisdom = 0.0; total.damageMultiplier = 0.0; total.healing = 0.0; total.manaRegen = 0.0
 
         for (item in player.inventory.armorContents) {
             if (item == null || item.type == Material.AIR) continue

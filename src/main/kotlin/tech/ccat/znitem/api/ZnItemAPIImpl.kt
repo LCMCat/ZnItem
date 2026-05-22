@@ -25,12 +25,7 @@ class ZnItemAPIImpl(private val plugin: ZnItem) : ZnItemAPI {
     }
 
     override fun calculateStats(itemStack: ItemStack, combatLevel: Int): PlayerStat {
-        val znItem = getZnItem(itemStack) ?: run {
-            val stat = PlayerStat()
-            stat.health = 0.0; stat.defense = 0.0; stat.strength = 0.0; stat.speed = 0.0; stat.baseDamage = 0.0
-            stat.critChance = 0.0; stat.critDamage = 0.0; stat.wisdom = 0.0; stat.damageMultiplier = 0.0; stat.healing = 0.0; stat.manaRegen = 0.0
-            return stat
-        }
+        val znItem = getZnItem(itemStack) ?: return PlayerStat()
         return znItem.calculateStats(itemStack, combatLevel)
     }
 

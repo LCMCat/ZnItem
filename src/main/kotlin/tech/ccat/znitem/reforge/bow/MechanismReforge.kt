@@ -8,8 +8,6 @@ import tech.ccat.znitem.reforge.Reforge
 class MechanismReforge : Reforge(ReforgeType.MECHANISM, "机关") {
     override fun getStatBonus(rarity: Rarity): PlayerStat {
         val stat = PlayerStat()
-        stat.health = 0.0; stat.defense = 0.0; stat.strength = 0.0; stat.speed = 0.0; stat.baseDamage = 0.0
-        stat.critChance = 0.0; stat.critDamage = 0.0; stat.wisdom = 0.0; stat.damageMultiplier = 0.0; stat.healing = 0.0; stat.manaRegen = 0.0
         when (rarity) {
             Rarity.COMMON -> { stat.strength = 2.0; stat.critDamage = 35.0 }
             Rarity.RARE -> { stat.strength = 4.0; stat.critDamage = 55.0 }

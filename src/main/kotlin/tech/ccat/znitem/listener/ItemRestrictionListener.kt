@@ -7,6 +7,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
+import tech.ccat.znitem.util.DurabilityChecker
 import tech.ccat.znitem.util.RestrictionChecker
 
 class ItemRestrictionListener : Listener {
@@ -16,10 +17,17 @@ class ItemRestrictionListener : Listener {
         if (event.action == Action.PHYSICAL) return
         
         val item = event.item ?: return
+        
         val result = RestrictionChecker.checkRestrictions(event.player, item)
         if (result != null) {
             event.isCancelled = true
             RestrictionChecker.sendMessageWithCooldown(event.player, result)
+            return
+        }
+        
+        if (DurabilityChecker.isLowDurability(item)) {
+            event.isCancelled = true
+            sendLowDurabilityMessage(event.player, item)
         }
     }
 
@@ -32,6 +40,12 @@ class ItemRestrictionListener : Listener {
         if (result != null) {
             event.isCancelled = true
             RestrictionChecker.sendMessageWithCooldown(damager, result)
+            return
+        }
+        
+        if (DurabilityChecker.isLowDurability(item)) {
+            event.isCancelled = true
+            sendLowDurabilityMessage(damager, item)
         }
     }
 
@@ -42,6 +56,26 @@ class ItemRestrictionListener : Listener {
         val result = RestrictionChecker.checkRestrictions(event.player, item)
         if (result != null) {
             RestrictionChecker.sendMessageWithCooldown(event.player, result)
+            return
         }
+        
+        if (DurabilityChecker.isLowDurability(item)) {
+            sendLowDurabilityMessage(event.player, item)
+        }
+    }
+    
+    private val messageCooldown = mutableMapOf<String, Long>()
+    private val cooldownMs = 1000L
+    
+    private fun sendLowDurabilityMessage(player: org.bukkit.entity.Player, item: org.bukkit.inventory.ItemStack) {
+        val key = "${player.uniqueId}:low_durability"
+        val lastTime = messageCooldown[key] ?: 0L
+        val now = System.currentTimeMillis()
+        
+        if (now - lastTime < cooldownMs) return
+        
+        messageCooldown[key] = now
+        val itemName = item.itemMeta?.displayName()?.toString() ?: item.type.name
+        player.sendMessage("§c你的 §6$itemName §c耐久即将耗尽，无法使用！")
     }
 }
