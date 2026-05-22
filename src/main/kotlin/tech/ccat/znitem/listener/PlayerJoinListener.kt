@@ -1,5 +1,6 @@
 package tech.ccat.znitem.listener
 
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -28,7 +29,7 @@ class PlayerJoinListener : Listener {
             }
         }
 
-        org.bukkit.Bukkit.getScheduler().runTaskLater(ZnItem.instance, Runnable {
+        Bukkit.getScheduler().runTaskLater(ZnItem.instance, Runnable {
             ZnItem.instance.kstatsAPI?.requestUpdate(player)
         }, 10L)
     }

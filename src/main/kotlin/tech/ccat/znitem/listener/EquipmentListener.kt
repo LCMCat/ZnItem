@@ -1,6 +1,7 @@
 package tech.ccat.znitem.listener
 
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -24,8 +25,8 @@ class EquipmentListener : Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onInventoryClick(event: InventoryClickEvent) {
-        if (event.whoClicked !is org.bukkit.entity.Player) return
-        val player = event.whoClicked as org.bukkit.entity.Player
+        if (event.whoClicked !is Player) return
+        val player = event.whoClicked as Player
         
         val isArmorSlot = event.slotType == org.bukkit.event.inventory.InventoryType.SlotType.ARMOR
         val isShiftClick = event.click.isShiftClick
@@ -41,8 +42,8 @@ class EquipmentListener : Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onInventoryDrag(event: InventoryDragEvent) {
-        if (event.whoClicked !is org.bukkit.entity.Player) return
-        val player = event.whoClicked as org.bukkit.entity.Player
+        if (event.whoClicked !is Player) return
+        val player = event.whoClicked as Player
         
         val hasArmor = event.newItems.values.any { it.type in armorMaterials }
         if (hasArmor) {
@@ -60,7 +61,7 @@ class EquipmentListener : Listener {
         requestUpdateDelayed(event.player)
     }
 
-    private fun requestUpdateDelayed(player: org.bukkit.entity.Player) {
+    private fun requestUpdateDelayed(player: Player) {
         org.bukkit.Bukkit.getScheduler().runTaskLater(ZnItem.instance, Runnable {
             ZnItem.instance.dataManager.refreshPlayer(player)
             ZnItem.instance.kstatsAPI?.requestUpdate(player)

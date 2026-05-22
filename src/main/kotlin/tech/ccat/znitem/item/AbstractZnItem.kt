@@ -30,6 +30,7 @@ abstract class AbstractZnItem {
     abstract val defaultGemSlots: Int
 
     open val defaultUnlockedGemSlots: Int = 0
+    open val unbreakable: Boolean = false
 
     open fun getItemStack(): ItemStack {
         val item = ItemStack(material)
@@ -72,6 +73,10 @@ abstract class AbstractZnItem {
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         }
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE)
+
+        if (unbreakable) {
+            meta.isUnbreakable = true
+        }
 
         val lore = LoreRenderer.renderItemLore(itemStack, player)
         meta.lore = lore

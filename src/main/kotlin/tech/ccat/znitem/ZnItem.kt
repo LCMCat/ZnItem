@@ -120,6 +120,7 @@ class ZnItem : JavaPlugin() {
         pm.registerEvents(ItemRestrictionListener(), this)
         pm.registerEvents(DurabilityProtectionListener(), this)
         pm.registerEvents(ItemBreakListener(), this)
+        pm.registerEvents(MusicSkillListener(), this)
     }
 
     private fun registerCommands() {
