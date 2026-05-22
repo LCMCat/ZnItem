@@ -31,7 +31,7 @@ abstract class AbstractZnItem {
 
     open val defaultUnlockedGemSlots: Int = 0
 
-    fun getItemStack(): ItemStack {
+    open fun getItemStack(): ItemStack {
         val item = ItemStack(material)
         val uuid = UUID.randomUUID()
 

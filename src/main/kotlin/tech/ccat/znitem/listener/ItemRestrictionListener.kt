@@ -1,5 +1,6 @@
 package tech.ccat.znitem.listener
 
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -75,7 +76,12 @@ class ItemRestrictionListener : Listener {
         if (now - lastTime < cooldownMs) return
         
         messageCooldown[key] = now
-        val itemName = item.itemMeta?.displayName()?.toString() ?: item.type.name
+        val displayName = item.itemMeta?.displayName()
+        val itemName = if (displayName != null) {
+            PlainTextComponentSerializer.plainText().serialize(displayName)
+        } else {
+            item.type.name
+        }
         player.sendMessage("§c你的 §6$itemName §c耐久即将耗尽，无法使用！")
     }
 }

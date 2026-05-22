@@ -22,6 +22,7 @@ import tech.ccat.znitem.skill.SkillRegistry
 import tech.ccat.znitem.storage.H2Database
 import tech.ccat.znitem.storage.PlayerBackupDao
 import tech.ccat.znitem.storage.PlayerBackupManager
+import tech.ccat.znitem.memento.MementoEditionManager
 import tech.ccat.znitem.validation.UUIDRegistry
 
 class ZnItem : JavaPlugin() {
@@ -35,6 +36,7 @@ class ZnItem : JavaPlugin() {
     lateinit var uuidRegistry: UUIDRegistry
     lateinit var backupManager: PlayerBackupManager
     lateinit var loreUpdateManager: LoreUpdateManager
+    lateinit var mementoEditionManager: MementoEditionManager
 
     lateinit var znItemAPI: ZnItemAPIImpl
 
@@ -58,6 +60,7 @@ class ZnItem : JavaPlugin() {
         dataManager = PlayerDataManager()
         uuidRegistry = UUIDRegistry()
         loreUpdateManager = LoreUpdateManager().apply { setup() }
+        mementoEditionManager = MementoEditionManager()
 
         h2Database = H2Database()
         h2Database.connect()
@@ -116,6 +119,7 @@ class ZnItem : JavaPlugin() {
         pm.registerEvents(LoreUpdateListener(), this)
         pm.registerEvents(ItemRestrictionListener(), this)
         pm.registerEvents(DurabilityProtectionListener(), this)
+        pm.registerEvents(ItemBreakListener(), this)
     }
 
     private fun registerCommands() {
@@ -129,6 +133,7 @@ class ZnItem : JavaPlugin() {
         getCommand("hotpowerbook")?.setExecutor(HotPowerBookCommand())
         getCommand("itemgem")?.setExecutor(ItemGemCommand())
         getCommand("viewnbt")?.setExecutor(ViewNbtCommand())
+        getCommand("creativemind")?.setExecutor(CreativeMindCommand())
     }
 
     private fun connectToExternalServices() {

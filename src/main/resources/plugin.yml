@@ -6,6 +6,7 @@ depend:
   - KStats
 softdepend:
   - NaSkill
+  - LuckPerms
 commands:
   summonitem:
     description: 生成一个ZnItem物品
@@ -39,6 +40,10 @@ commands:
     description: 查看物品NBT数据
     usage: /viewnbt
     permission: znitem.admin.viewnbt
+  creativemind:
+    description: 赠送创造之画纪念品
+    usage: /creativemind <玩家名> <贡献>
+    permission: znitem.admin.creativemind
 permissions:
   znitem.admin:
     description: ZnItem管理员权限
@@ -52,3 +57,4 @@ permissions:
       znitem.admin.hotpowerbook: true
       znitem.admin.gem: true
       znitem.admin.viewnbt: true
+      znitem.admin.creativemind: true
