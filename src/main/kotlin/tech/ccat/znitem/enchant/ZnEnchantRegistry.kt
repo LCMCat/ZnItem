@@ -14,5 +14,7 @@ object ZnEnchantRegistry {
     fun setup() {
         register(SharpnessEnchant())
         register(SmiteEnchant())
+        register(CriticalEnchant())
+        register(LifeStealEnchant())
     }
 }

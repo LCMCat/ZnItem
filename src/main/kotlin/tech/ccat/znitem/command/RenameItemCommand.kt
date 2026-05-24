@@ -37,7 +37,7 @@ class RenameItemCommand : CommandExecutor {
             return true
         }
 
-        val name = args.joinToString(" ")
+        val name = args.joinToString(" ").replace("&","§")
         ZnItemNBT.setRename(item, name)
 
         val itemId = ZnItemNBT.getItemId(item) ?: return true

@@ -37,7 +37,6 @@ class ZnItemStatProvider : StatProvider {
         player.inventory.armorContents.forEach { items.add(it) }
         items.add(player.inventory.itemInMainHand)
         items.add(player.inventory.itemInOffHand)
-        player.inventory.contents.forEach { items.add(it) }
         return items
     }
 

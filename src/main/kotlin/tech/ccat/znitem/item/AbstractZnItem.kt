@@ -122,8 +122,13 @@ abstract class AbstractZnItem {
         enchants.forEach { (enchantId, level) ->
             val enchant = ZnEnchantRegistry.get(enchantId)
             if (enchant != null && itemType in enchant.applicableTypes) {
-                if (enchantId == "SHARPNESS") {
-                    total.baseDamage += total.baseDamage * enchant.getEffectValue(level) / 100.0
+                when (enchantId) {
+                    "SHARPNESS" -> {
+                        total.baseDamage += total.baseDamage * enchant.getEffectValue(level) / 100.0
+                    }
+                    "CRITICAL" -> {
+                        total.critDamage += enchant.getEffectValue(level)
+                    }
                 }
             }
         }

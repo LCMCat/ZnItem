@@ -20,6 +20,9 @@ repositories {
     maven("https://repo.lucko.me/") {
         name = "luckperms"
     }
+    maven("https://libraries.minecraft.net") {
+        name = "mojang"
+    }
 }
 
 dependencies {
@@ -28,6 +31,7 @@ dependencies {
     compileOnly(files("lib/CaLevel-1.0-SNAPSHOT.jar"))
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
+    compileOnly("com.mojang:authlib:1.5.25")
     implementation("com.h2database:h2:2.2.224")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }

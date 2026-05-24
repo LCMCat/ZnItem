@@ -25,7 +25,7 @@ class StatsComponent : LoreComponent {
         renderStatLine(lines, "防御", "§9", baseStats.defense, reforgeBonus?.defense ?: 0.0)
         renderStatLine(lines, "速度", "§3", baseStats.speed, reforgeBonus?.speed ?: 0.0)
         renderStatLine(lines, "暴击几率", "§d", baseStats.critChance, reforgeBonus?.critChance ?: 0.0, "%")
-        renderStatLine(lines, "暴击伤害", "§5", baseStats.critDamage, reforgeBonus?.critDamage ?: 0.0, "%")
+        renderCritDamageLine(lines, context, baseStats, reforgeBonus)
         renderStatLine(lines, "智慧", "§3", baseStats.wisdom, reforgeBonus?.wisdom ?: 0.0)
         
         return lines
@@ -102,6 +102,34 @@ class StatsComponent : LoreComponent {
         if (base <= 0 && reforge <= 0) return
         val total = base + reforge
         lines.add("§7$name: $color+${formatStat(total)}$suffix")
+    }
+    
+    private fun renderCritDamageLine(
+        lines: MutableList<String>,
+        context: LoreContext,
+        baseStats: PlayerStat,
+        reforgeBonus: PlayerStat?
+    ) {
+        val base = baseStats.critDamage
+        val reforge = reforgeBonus?.critDamage ?: 0.0
+        val critLevel = context.enchants["CRITICAL"] ?: 0
+        val critBonus = if (critLevel > 0) {
+            ZnEnchantRegistry.get("CRITICAL")?.getEffectValue(critLevel) ?: 0.0
+        } else 0.0
+        
+        if (base <= 0 && reforge <= 0 && critBonus <= 0) return
+        
+        val total = base + reforge + critBonus
+        val detailParts = mutableListOf<String>()
+        if (base > 0) detailParts.add("${base.toInt()}基础")
+        if (reforge > 0) detailParts.add("${reforge.toInt()}${ReforgeRegistry.get(context.reforgeType)?.displayName ?: ""}")
+        if (critBonus > 0) detailParts.add("${critBonus.toInt()}%暴击${tech.ccat.znitem.enchant.ZnEnchant.toRoman(critLevel)}")
+        
+        if (detailParts.isNotEmpty()) {
+            lines.add("§7暴击伤害: §5+${formatStat(total)}%§8(${detailParts.joinToString(" + ")})")
+        } else {
+            lines.add("§7暴击伤害: §5+${formatStat(total)}%")
+        }
     }
     
     private fun formatStat(value: Double): String {

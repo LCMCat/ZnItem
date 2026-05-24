@@ -6,8 +6,7 @@ import tech.ccat.znitem.skill.ItemSkill
 import tech.ccat.znitem.util.music.*
 
 class MusicPlayerSkill(
-    private val songResourceName: String,
-    private val fadeOutTicks: Int = 20
+    private val songResourceName: String
 ) : ItemSkill(
     id = "MUSIC_PLAYER",
     name = "音乐播放",
@@ -39,21 +38,7 @@ class MusicPlayerSkill(
     
     fun stopPlaying(player: Player) {
         val songPlayer = activePlayers.remove(player.name) ?: return
-        
-        songPlayer.fadeStart = songPlayer.volume
-        songPlayer.fadeTarget = 0
-        songPlayer.fadeDuration = fadeOutTicks
-        songPlayer.fadeType = FadeType.LINEAR
-        songPlayer.autoDestroy = true
-        
-        org.bukkit.Bukkit.getScheduler().runTaskLater(
-            tech.ccat.znitem.ZnItem.instance,
-            Runnable {
-                songPlayer.destroy()
-                activePlayers.remove(player.name)
-            },
-            (fadeOutTicks + 10).toLong()
-        )
+        songPlayer.destroy()
     }
     
     fun isPlaying(player: Player): Boolean = activePlayers.containsKey(player.name)
@@ -61,9 +46,9 @@ class MusicPlayerSkill(
     companion object {
         private val instances = mutableMapOf<String, MusicPlayerSkill>()
         
-        fun getInstance(songResourceName: String, fadeOutTicks: Int = 20): MusicPlayerSkill {
-            return instances.getOrPut("$songResourceName:$fadeOutTicks") {
-                MusicPlayerSkill(songResourceName, fadeOutTicks)
+        fun getInstance(songResourceName: String): MusicPlayerSkill {
+            return instances.getOrPut(songResourceName) {
+                MusicPlayerSkill(songResourceName)
             }
         }
     }

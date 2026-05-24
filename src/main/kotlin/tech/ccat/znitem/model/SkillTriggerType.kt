@@ -8,5 +8,6 @@ enum class SkillTriggerType(val displayName: String) {
     MAIN_HAND("放于主手"),
     OFF_HAND("放于副手"),
     BOTH_HAND("放于主和副手"),
-    INVENTORY("放在背包内")
+    INVENTORY("放在背包内"),
+    ELYTRA_FLIGHT("鞘翅飞行")
 }

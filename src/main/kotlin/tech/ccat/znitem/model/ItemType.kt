@@ -9,6 +9,7 @@ enum class ItemType(val displayName: String) {
     CHESTPLATE("胸甲"),
     LEGGINGS("护腿"),
     BOOTS("靴子"),
+    ELYTRA("鞘翅"),
     ACCESSORY("饰品"),
     PICKAXE("镐"),
     HOE("锄头"),
@@ -34,7 +35,7 @@ enum class ItemType(val displayName: String) {
 
     companion object {
         val WEAPON_TYPES: Set<ItemType> = setOf(SWORD, BOW, AXE, WAND, FISHING_ROD, DRILL)
-        val ARMOR_TYPES: Set<ItemType> = setOf(HELMET, CHESTPLATE, LEGGINGS, BOOTS)
+        val ARMOR_TYPES: Set<ItemType> = setOf(HELMET, CHESTPLATE, LEGGINGS, BOOTS, ELYTRA)
         val TOOL_TYPES: Set<ItemType> = setOf(PICKAXE, HOE, SHOVEL, SHEARS)
         val ENCHANT_WEAPON_TYPES: Set<ItemType> = setOf(SWORD, AXE, DRILL)
     }

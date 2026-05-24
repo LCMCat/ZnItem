@@ -129,8 +129,10 @@ abstract class SongPlayer(protected val song: Song) {
             return
         }
         
-        Bukkit.getOnlinePlayers().forEach { player ->
-            playTick(player, currentTick)
+        playerList.forEach { playerName ->
+            Bukkit.getPlayer(playerName)?.let { player ->
+                playTick(player, currentTick)
+            }
         }
     }
     

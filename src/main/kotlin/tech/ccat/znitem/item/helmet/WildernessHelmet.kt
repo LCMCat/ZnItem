@@ -20,7 +20,7 @@ class WildernessHelmet : ZnHelmet() {
         "§d它的欢快而轻盈，却带着天生的谨慎与睿智。"
     )
     override val skills: List<ItemSkill> = listOf(
-        MusicPlayerSkill.getInstance("Abstract Ringing.nbs", fadeOutTicks = 20)
+        MusicPlayerSkill.getInstance("Abstract Ringing.nbs")
     )
     override val restrictions: ItemRestriction = ItemRestriction()
     override val defaultGemSlots: Int = 0

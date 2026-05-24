@@ -50,6 +50,6 @@ class EnchantDamageListener : Listener {
         val bonusPercent = smiteEnchant.getEffectValue(smiteLevel) / 100.0
         val bonusDamage = event.damage * bonusPercent
 
-        event.damage = event.damage + bonusDamage
+        event.damage += bonusDamage
     }
 }
