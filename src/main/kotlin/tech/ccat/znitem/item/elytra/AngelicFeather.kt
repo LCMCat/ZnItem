@@ -1,8 +1,6 @@
 package tech.ccat.znitem.item.elytra
 
-import org.bukkit.Color
 import org.bukkit.Material
-import org.bukkit.inventory.meta.LeatherArmorMeta
 import tech.ccat.kstats.model.PlayerStat
 import tech.ccat.znitem.model.*
 import tech.ccat.znitem.skill.ItemSkill
@@ -30,16 +28,4 @@ class AngelicFeather : ZnElytra() {
     override val restrictions: ItemRestriction = ItemRestriction()
     override val defaultGemSlots: Int = 0
     override val unbreakable: Boolean = true
-    
-    override fun getItemStack(): org.bukkit.inventory.ItemStack {
-        val item = super.getItemStack()
-        
-        val meta = item.itemMeta
-        if (meta is LeatherArmorMeta) {
-            meta.setColor(Color.WHITE)
-            item.itemMeta = meta
-        }
-        
-        return item
-    }
 }

@@ -121,6 +121,7 @@ class ZnItem : JavaPlugin() {
         pm.registerEvents(DurabilityProtectionListener(), this)
         pm.registerEvents(ItemBreakListener(), this)
         pm.registerEvents(LifeStealListener(), this)
+        pm.registerEvents(ConsumableListener(), this)
     }
 
     private fun registerCommands() {
@@ -135,6 +136,7 @@ class ZnItem : JavaPlugin() {
         getCommand("itemgem")?.setExecutor(ItemGemCommand())
         getCommand("viewnbt")?.setExecutor(ViewNbtCommand())
         getCommand("creativemind")?.setExecutor(CreativeMindCommand())
+        getCommand("menditem")?.setExecutor(MendItemCommand())
     }
 
     private fun connectToExternalServices() {

@@ -1,18 +1,19 @@
 package tech.ccat.znitem.model
 
 import tech.ccat.znitem.item.AbstractZnItem
-import tech.ccat.znitem.item.sword.AlphaSword
-import tech.ccat.znitem.item.memento.CreativeMind
-import tech.ccat.znitem.item.helmet.WildernessHelmet
-import tech.ccat.znitem.item.helmet.BigBrain
-import tech.ccat.znitem.item.elytra.AngelicFeather
+import tech.ccat.znitem.item.sword.*
+import tech.ccat.znitem.item.memento.*
+import tech.ccat.znitem.item.helmet.*
+import tech.ccat.znitem.item.elytra.*
+import tech.ccat.znitem.item.consumable.*
 
 enum class ZnItemEnum {
     ALPHA_SWORD,
     CREATIVE_MIND,
     WILDERNESS_HELMET,
     BIG_BRAIN,
-    ANGELIC_FEATHER;
+    ANGELIC_FEATHER,
+    GLUTTONOUS_PUFFERFISH;
 
     fun createItem(): AbstractZnItem = when (this) {
         ALPHA_SWORD -> AlphaSword()
@@ -20,6 +21,7 @@ enum class ZnItemEnum {
         WILDERNESS_HELMET -> WildernessHelmet()
         BIG_BRAIN -> BigBrain()
         ANGELIC_FEATHER -> AngelicFeather()
+        GLUTTONOUS_PUFFERFISH -> GluttonousPufferfish()
     }
 
     companion object {

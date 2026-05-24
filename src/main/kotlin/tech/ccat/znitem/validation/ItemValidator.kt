@@ -1,6 +1,7 @@
 package tech.ccat.znitem.validation
 
 import org.bukkit.inventory.ItemStack
+import tech.ccat.znitem.model.ZnItemEnum
 import tech.ccat.znitem.nbt.ZnItemNBT
 
 class ItemValidator(private val uuidRegistry: UUIDRegistry) {
@@ -17,16 +18,25 @@ class ItemValidator(private val uuidRegistry: UUIDRegistry) {
             errors.add("ZnItem缺少物品ID")
         }
 
+        val requiresUuid = shouldRequireUuid(itemStack)
         val uuid = ZnItemNBT.getUniqueId(itemStack)
-        if (uuid == null) {
+        
+        if (requiresUuid && uuid == null) {
             errors.add("ZnItem缺少唯一UUID")
-        } else {
+        } else if (uuid != null) {
             if (uuidRegistry.isRegistered(uuid)) {
                 errors.add("ZnItem UUID重复: $uuid")
             }
         }
 
         return if (errors.isEmpty()) ValidationResult.ok() else ValidationResult.errors(errors)
+    }
+
+    private fun shouldRequireUuid(itemStack: ItemStack): Boolean {
+        val itemId = ZnItemNBT.getItemId(itemStack) ?: return true
+        val znItemEnum = ZnItemEnum.fromId(itemId) ?: return true
+        val znItem = znItemEnum.createItem()
+        return znItem.requiresUuid
     }
 
     fun validateAndRegister(itemStack: ItemStack, playerUuid: java.util.UUID): ValidationResult {

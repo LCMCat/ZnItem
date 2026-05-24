@@ -8,6 +8,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
+import tech.ccat.znitem.model.ItemType
+import tech.ccat.znitem.model.ZnItemEnum
+import tech.ccat.znitem.nbt.ZnItemNBT
 import tech.ccat.znitem.util.DurabilityChecker
 import tech.ccat.znitem.util.RestrictionChecker
 
@@ -18,6 +21,8 @@ class ItemRestrictionListener : Listener {
         if (event.action == Action.PHYSICAL) return
         
         val item = event.item ?: return
+        
+        if (isConsumable(item)) return
         
         val result = RestrictionChecker.checkRestrictions(event.player, item)
         if (result != null) {
@@ -30,6 +35,14 @@ class ItemRestrictionListener : Listener {
             event.isCancelled = true
             sendLowDurabilityMessage(event.player, item)
         }
+    }
+    
+    private fun isConsumable(item: org.bukkit.inventory.ItemStack): Boolean {
+        if (!ZnItemNBT.isZnItem(item)) return false
+        val itemId = ZnItemNBT.getItemId(item) ?: return false
+        val znItemEnum = ZnItemEnum.fromId(itemId) ?: return false
+        val znItem = znItemEnum.createItem()
+        return znItem.itemType == ItemType.CONSUMABLE
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

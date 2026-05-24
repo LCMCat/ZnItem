@@ -31,14 +31,16 @@ abstract class AbstractZnItem {
 
     open val defaultUnlockedGemSlots: Int = 0
     open val unbreakable: Boolean = false
+    open val requiresUuid: Boolean = true
 
     open fun getItemStack(): ItemStack {
         val item = ItemStack(material)
-        val uuid = UUID.randomUUID()
 
         ZnItemNBT.markAsZnItem(item)
         ZnItemNBT.setItemId(item, id.name)
-        ZnItemNBT.setUniqueId(item, uuid)
+        if (requiresUuid) {
+            ZnItemNBT.setUniqueId(item, UUID.randomUUID())
+        }
         ZnItemNBT.setHotPowerBooks(item, 0)
         ZnItemNBT.setReforgeType(item, ReforgeType.NONE)
         ZnItemNBT.setRefactored(item, false)

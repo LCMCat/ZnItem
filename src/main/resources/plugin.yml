@@ -44,6 +44,10 @@ commands:
     description: 赠送创造之画纪念品
     usage: /creativemind <玩家名> <贡献>
     permission: znitem.admin.creativemind
+  menditem:
+    description: 修复手持物品耐久度
+    usage: /menditem
+    permission: znitem.admin.menditem
 permissions:
   znitem.admin:
     description: ZnItem管理员权限
@@ -58,3 +62,4 @@ permissions:
       znitem.admin.gem: true
       znitem.admin.viewnbt: true
       znitem.admin.creativemind: true
+      znitem.admin.menditem: true

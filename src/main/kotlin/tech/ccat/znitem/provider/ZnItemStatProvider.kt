@@ -16,28 +16,47 @@ class ZnItemStatProvider : StatProvider {
 
         val combatLevel = getCombatLevel(player)
 
-        val allItems = getAllEquippedItems(player)
-        for (itemStack in allItems) {
+        val armorItems = player.inventory.armorContents
+        val mainHandItem = player.inventory.itemInMainHand
+        val offHandItem = player.inventory.itemInOffHand
+
+        for (itemStack in armorItems) {
             if (itemStack != null && ZnItemNBT.isZnItem(itemStack)) {
                 if (DurabilityChecker.isLowDurability(itemStack)) continue
-                
-                val itemId = ZnItemNBT.getItemId(itemStack) ?: continue
-                val znItemEnum = ZnItemEnum.fromId(itemId) ?: continue
-                val znItem = znItemEnum.createItem()
-                val stats = znItem.calculateStats(itemStack, combatLevel)
-                total.addAllStats(stats)
+                addStatsFromItem(total, itemStack, combatLevel)
             }
+        }
+
+        if (shouldApplyHandItem(mainHandItem)) {
+            if (DurabilityChecker.isLowDurability(mainHandItem)) return total
+            addStatsFromItem(total, mainHandItem, combatLevel)
+        }
+
+        if (shouldApplyHandItem(offHandItem)) {
+            if (DurabilityChecker.isLowDurability(offHandItem)) return total
+            addStatsFromItem(total, offHandItem, combatLevel)
         }
 
         return total
     }
 
-    private fun getAllEquippedItems(player: Player): List<ItemStack?> {
-        val items = mutableListOf<ItemStack?>()
-        player.inventory.armorContents.forEach { items.add(it) }
-        items.add(player.inventory.itemInMainHand)
-        items.add(player.inventory.itemInOffHand)
-        return items
+    private fun shouldApplyHandItem(item: ItemStack): Boolean {
+        if (item.type.isAir) return false
+        if (!ZnItemNBT.isZnItem(item)) return false
+        
+        val itemId = ZnItemNBT.getItemId(item) ?: return false
+        val znItemEnum = ZnItemEnum.fromId(itemId) ?: return false
+        val znItem = znItemEnum.createItem()
+        
+        return !znItem.itemType.isArmor()
+    }
+
+    private fun addStatsFromItem(total: PlayerStat, itemStack: ItemStack, combatLevel: Int) {
+        val itemId = ZnItemNBT.getItemId(itemStack) ?: return
+        val znItemEnum = ZnItemEnum.fromId(itemId) ?: return
+        val znItem = znItemEnum.createItem()
+        val stats = znItem.calculateStats(itemStack, combatLevel)
+        total.addAllStats(stats)
     }
 
     private fun getCombatLevel(player: Player): Int {
