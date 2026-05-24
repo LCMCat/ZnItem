@@ -3,6 +3,7 @@ package tech.ccat.znitem
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.java.JavaPlugin
+import tech.ccat.bemenu.BeMenu
 import tech.ccat.calevel.api.CaLevelAPI
 import tech.ccat.kstats.api.KStatsAPI
 import tech.ccat.naskill.api.NaSkillAPI
@@ -15,6 +16,7 @@ import tech.ccat.znitem.enchant.ZnEnchantRegistry
 import tech.ccat.znitem.listener.*
 import tech.ccat.znitem.lore.LoreRenderer
 import tech.ccat.znitem.lore.LoreUpdateManager
+import tech.ccat.znitem.menu.ItemListMenu
 import tech.ccat.znitem.provider.VanillaItemProvider
 import tech.ccat.znitem.provider.ZnItemStatProvider
 import tech.ccat.znitem.reforge.ReforgeRegistry
@@ -84,6 +86,7 @@ class ZnItem : JavaPlugin() {
         )
 
         connectToExternalServices()
+        connectToBeMenu()
 
         startAutoBackupTask()
 
@@ -157,6 +160,14 @@ class ZnItem : JavaPlugin() {
         caLevelAPI = server.servicesManager.getRegistration(CaLevelAPI::class.java)?.provider
         caLevelAPI?.let {
             logger.info("已连接到CaLevel")
+        }
+    }
+
+    private fun connectToBeMenu() {
+        val beMenu = server.servicesManager.getRegistration(BeMenu::class.java)?.provider
+        beMenu?.let {
+            it.register(ItemListMenu)
+            logger.info("已连接到BeMenu")
         }
     }
 

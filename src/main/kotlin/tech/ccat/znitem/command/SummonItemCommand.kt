@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import tech.ccat.znitem.ZnItem
+import tech.ccat.bemenu.BeMenu
 import tech.ccat.znitem.model.ZnItemEnum
 
 class SummonItemCommand : CommandExecutor, TabCompleter {
@@ -14,6 +14,20 @@ class SummonItemCommand : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (!sender.hasPermission("znitem.admin.summon")) {
             sender.sendMessage("§c你没有权限执行此命令")
+            return true
+        }
+
+        if (args.isEmpty()) {
+            if (sender !is Player) {
+                sender.sendMessage("§c控制台必须指定物品ID")
+                return true
+            }
+            val beMenu = Bukkit.getServicesManager().getRegistration(BeMenu::class.java)?.provider
+            if (beMenu != null && beMenu.exists("znitem:item_list")) {
+                beMenu.open(sender, "znitem:item_list")
+            } else {
+                sender.sendMessage("§cBeMenu 未安装或菜单未注册")
+            }
             return true
         }
 
@@ -35,7 +49,7 @@ class SummonItemCommand : CommandExecutor, TabCompleter {
                 itemId = args[1].uppercase()
             }
             else -> {
-                sender.sendMessage("§c用法: /summonitem <物品ID> 或 /summonitem <玩家> <物品ID>")
+                sender.sendMessage("§c用法: /summonitem 或 /summonitem <物品ID> 或 /summonitem <玩家> <物品ID>")
                 return true
             }
         }

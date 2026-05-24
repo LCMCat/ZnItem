@@ -29,6 +29,7 @@ dependencies {
     compileOnly(files("lib/kstats-1.0-SNAPSHOT.jar"))
     compileOnly(files("lib/NaSkill-1.0-SNAPSHOT.jar"))
     compileOnly(files("lib/CaLevel-1.0-SNAPSHOT.jar"))
+    compileOnly(files("lib/BeMenu-1.0-SNAPSHOT.jar"))
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("com.mojang:authlib:1.5.25")
