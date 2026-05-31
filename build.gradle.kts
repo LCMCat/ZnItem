@@ -30,7 +30,7 @@ dependencies {
     compileOnly(files("lib/NaSkill-1.0-SNAPSHOT.jar"))
     compileOnly(files("lib/CaLevel-1.0-SNAPSHOT.jar"))
     compileOnly(files("lib/BeMenu-1.0-SNAPSHOT.jar"))
-    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("com.mojang:authlib:1.5.25")
     implementation("com.h2database:h2:2.2.224")
@@ -39,7 +39,7 @@ dependencies {
 
 tasks {
     runServer {
-        minecraftVersion("1.21")
+        minecraftVersion("1.21.11")
     }
 }
 
